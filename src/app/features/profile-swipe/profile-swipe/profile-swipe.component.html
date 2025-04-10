@@ -1,0 +1,70 @@
+<mat-toolbar class="transparent-toolbar">
+    <span>Daily Recommendations</span>
+  </mat-toolbar>
+  
+  <div *ngIf="currentProfile else noMore" class="card-wrapper" #card>
+    <mat-card class="profile-card">
+      <div class="image-container">
+        <img mat-card-image [src]="currentProfile.images[0]" alt="Profile Image">
+      </div>
+  
+      <mat-card-content>
+        <div class="badges">
+          <span *ngIf="currentProfile.isVerified" class="verified">Verified</span>
+          <span *ngIf="currentProfile.isNRI" class="nri">Premium NRI</span>
+        </div>
+        <h2>{{ currentProfile.name }}</h2>
+        <p>
+            <ng-container *ngIf="currentProfile.age">{{ currentProfile.age }} Yrs</ng-container>
+            <ng-container *ngIf="currentProfile.age && currentProfile.height">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.height">{{ currentProfile.height }}</ng-container>
+            <ng-container *ngIf="currentProfile.height && currentProfile.education">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.education">{{ currentProfile.education }}</ng-container>
+            <ng-container *ngIf="currentProfile.education && currentProfile.profession">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.profession">{{ currentProfile.profession }}</ng-container>
+            <ng-container *ngIf="currentProfile.profession && currentProfile.religion">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.religion">{{ currentProfile.religion }}</ng-container>
+            <ng-container *ngIf="currentProfile.religion && currentProfile.caste">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.caste">{{ currentProfile.caste }}</ng-container>
+            <ng-container *ngIf="currentProfile.caste && currentProfile.city">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.city">{{ currentProfile.city }}</ng-container>
+            <ng-container *ngIf="currentProfile.city && currentProfile.state">, </ng-container>
+          
+            <ng-container *ngIf="currentProfile.state">{{ currentProfile.state }}</ng-container>
+          </p>
+          
+      </mat-card-content>
+  
+      <mat-card-actions class="action-bar">
+        <div class="shortlist">
+          <button mat-icon-button (click)="shortlist()">
+            <mat-icon>star_border</mat-icon>
+          </button>
+          <span>Shortlist</span>
+        </div>
+      
+        <div class="like-her">
+          <span><strong>Like her?</strong></span>
+          <button mat-icon-button class="circle-btn" (click)="notInterested()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <button mat-icon-button class="circle-btn orange" (click)="interested()">
+            <mat-icon>check</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+      
+    </mat-card>
+  </div>
+  
+  <ng-template #noMore>
+    <div class="no-more">
+      <h3>No more profiles</h3>
+    </div>
+  </ng-template>

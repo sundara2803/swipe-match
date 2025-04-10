@@ -1,0 +1,81 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/matches"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ (profile$ | async)?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ng-container *ngIf="profile$ | async as profile; else noProfile">
+    <div class="image-slider-wrapper">
+      <ion-slides pager="true" (ionSlideDidChange)="updateSlideIndex($event, profile)">
+        <ion-slide *ngFor="let image of profile.images">
+          <img [src]="image" class="profile-image" />
+        </ion-slide>
+      </ion-slides>
+      <div class="slide-counter">
+        {{ currentSlide + 1 }}/{{ profile.images.length }}
+      </div>
+    </div>
+
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title>{{ profile.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          <ng-container *ngIf="profile.age || profile.height || profile.language || profile.caste">
+            <ng-container *ngIf="profile.age">{{ profile.age }} Yrs</ng-container>
+            <ng-container *ngIf="profile.age && profile.height">, </ng-container>
+            <ng-container *ngIf="profile.height">{{ profile.height }}</ng-container>
+            <ng-container *ngIf="(profile.age || profile.height) && profile.language">, </ng-container>
+            <ng-container *ngIf="profile.language">{{ profile.language }}</ng-container>
+            <ng-container *ngIf="(profile.age || profile.height || profile.language) && profile.caste">, </ng-container>
+            <ng-container *ngIf="profile.caste">{{ profile.caste }}</ng-container>
+            <br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.education || profile.profession">
+            <ng-container *ngIf="profile.education">{{ profile.education }}</ng-container>
+            <ng-container *ngIf="profile.education && profile.profession">, </ng-container>
+            <ng-container *ngIf="profile.profession">{{ profile.profession }}</ng-container>
+            <br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.city || profile.state || profile.country">
+            <ng-container *ngIf="profile.city">{{ profile.city }}</ng-container>
+            <ng-container *ngIf="profile.city && profile.state">, </ng-container>
+            <ng-container *ngIf="profile.state">{{ profile.state }}</ng-container>
+            <ng-container *ngIf="(profile.city || profile.state) && profile.country">, </ng-container>
+            <ng-container *ngIf="profile.country">{{ profile.country }}</ng-container>
+            <br /><br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.religion">
+            <strong>Religion:</strong> {{ profile.religion }}<br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.isVerified !== undefined">
+            <strong>Verified:</strong> {{ profile.isVerified ? 'Yes' : 'No' }}<br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.isPremium !== undefined">
+            <strong>Premium:</strong> {{ profile.isPremium ? 'Yes' : 'No' }}<br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.isNRI !== undefined">
+            <strong>NRI:</strong> {{ profile.isNRI ? 'Yes' : 'No' }}
+          </ng-container>
+        </p>
+
+
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #noProfile>
+    <div class="no-profile">No profile found.</div>
+  </ng-template>
+</ion-content>

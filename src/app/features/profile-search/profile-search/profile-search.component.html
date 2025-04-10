@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <div class="toolbar-custom">
+      <span class="title">My Matches</span>
+      <ion-icon name="ellipsis-vertical"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="skyblue-content">
+  <div class="title-section">
+    <ng-container *ngIf="pendingCount > 0">
+      <h2>{{ pendingCount }} Profiles pending with me
+        <span class="new-badge" *ngIf="newCount > 0">{{ newCount }} NEW</span>
+      </h2>
+    </ng-container>
+  </div>
+  
+
+  <div class="card-scroll" *ngIf="profiles.length > 0; else noProfiles">
+    <div class="profile-card" *ngFor="let profile of profiles">
+      <img [src]="profile.images[0]" class="profile-image" (click)="handleAction('yes', profile)" />
+      <div class="profile-info">
+        <h3>{{ profile.name }}</h3>
+        <p>
+          <ng-container
+            *ngIf="profile.age || profile.height || profile.language || profile.caste || profile.education || profile.profession">
+            <ng-container *ngIf="profile.age">{{ profile.age }} Yrs</ng-container>
+            <ng-container *ngIf="profile.age && profile.height">, </ng-container>
+
+            <ng-container *ngIf="profile.height">{{ profile.height }}</ng-container>
+            <ng-container *ngIf="(profile.age || profile.height) && profile.language">, </ng-container>
+
+            <ng-container *ngIf="profile.language">{{ profile.language }}</ng-container>
+            <ng-container *ngIf="(profile.age || profile.height || profile.language) && profile.caste">, </ng-container>
+
+            <ng-container *ngIf="profile.caste">{{ profile.caste }}</ng-container>
+            <ng-container
+              *ngIf="(profile.age || profile.height || profile.language || profile.caste) && profile.education">,
+            </ng-container>
+
+            <ng-container *ngIf="profile.education">{{ profile.education }}</ng-container>
+            <ng-container
+              *ngIf="(profile.age || profile.height || profile.language || profile.caste || profile.education) && profile.profession">,
+            </ng-container>
+
+            <ng-container *ngIf="profile.profession">{{ profile.profession }}</ng-container>
+            <br />
+          </ng-container>
+
+          <ng-container *ngIf="profile.city || profile.state || profile.country">
+            <ng-container *ngIf="profile.city">{{ profile.city }}</ng-container>
+            <ng-container *ngIf="profile.city && profile.state">, </ng-container>
+
+            <ng-container *ngIf="profile.state">{{ profile.state }}</ng-container>
+            <ng-container *ngIf="(profile.city || profile.state) && profile.country">, </ng-container>
+
+            <ng-container *ngIf="profile.country">{{ profile.country }}</ng-container>
+          </ng-container>
+        </p>
+
+      </div>
+      <div class="action-buttons">
+        <button class="yes-btn" (click)="handleAction('yes', profile)">Yes</button>
+        <button class="no-btn" (click)="handleAction('no', profile)">No</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noProfiles>
+    <div class="no-profiles">
+      <p>No profiles available at the moment.</p>
+      <ion-icon name="sad-outline" size="large"></ion-icon>
+    </div>
+  </ng-template>
+</ion-content>
